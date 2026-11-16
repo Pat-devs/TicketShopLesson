@@ -46,4 +46,16 @@ public class ShippingCalculatorTests
         int actual = calculator.CalculateShipping(orderTotal, isMember);
         Assert.Equal(expected, actual);
     }
+
+    [Fact]
+    public void CalculateShipping_NegativeTotal_ThrowsException()
+    {
+        var calculator = new ShippingCalculator();
+
+        var exception = Assert.Throws<ArgumentOutOfRangeException>(
+            () => calculator.CalculateShipping(-1, false)
+        ); 
+
+        Assert.Equal("orderTotal", exception.ParamName);
+    }
 }
