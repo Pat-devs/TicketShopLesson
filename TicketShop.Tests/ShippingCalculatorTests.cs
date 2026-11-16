@@ -23,4 +23,27 @@ public class ShippingCalculatorTests
         int actual = calculator.CalculateShipping(500, false);
         Assert.Equal(0, actual);
     }
+    [Fact]
+    public void CalculateShipping_Member_ReturnsZero()
+    {
+        var calculator = new ShippingCalculator();
+        int actual = calculator.CalculateShipping(100, true);
+
+        Assert.True(actual == 0);
+        Assert.False(actual > 0);
+        Assert.NotEqual(79, actual);
+    }
+
+    [Theory]
+    [InlineData(0, false, 79)]
+    [InlineData(499, false, 79)]
+    [InlineData(500, false, 0)]
+    [InlineData(501, false, 0)]
+    [InlineData(100, true, 0)]
+    public void CalculateShipping_ValidInputs_ReturnsExpected(int orderTotal, bool isMember, int expected)
+    {
+        var calculator = new ShippingCalculator();
+        int actual = calculator.CalculateShipping(orderTotal, isMember);
+        Assert.Equal(expected, actual);
+    }
 }
